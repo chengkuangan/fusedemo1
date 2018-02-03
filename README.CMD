@@ -1,14 +1,51 @@
 Camel Project for Spring 
 =========================================
 
-To build this project use
+This demo expose SOAP endpoint and send the data into database using JDBC.
+
+Before Deploy, run the following script at the JBoss Fuse CLI to install the required features:
+
+JBossFuse:karaf@root> features:install camel-jackson
+JBossFuse:karaf@root> features:install camel-http4
+
+A database need to be created, please refer to the src/main/resources/insertTxnLog.sql for the SQL statements with required table name and structure.
+
+Change the following in the camel-context.xml to the correct JDBC driver and connection detail:
+
+<bean class="org.apache.commons.dbcp.BasicDataSource" id="myDS">
+        <property name="driverClassName" value="org.h2.Driver"/>
+        <property name="url" value="jdbc:h2:file:~/demo/kbtg/db/ps"/>
+        <property name="username" value="sa"/>
+        <property name="password" value="sa"/>
+    </bean>
+
+To build this project, change directory to the root source folder and run the following command:
 
     mvn install
+    
+To install, run the following command at the JBoss Fuse CLI:
 
-To run the project you can execute the following Maven goal
+JBossFuse:karaf@root> osgi:install -s mvn:com.jboss.demo/camel-spring-soap-demo/1.0.0-SNAPSHOT
 
-    mvn camel:run
+After installed, to the endpoint, use a SOAP client such as POSTMAN or SOAPUI with the following SOAP envelope:
 
-For more help see the Apache Camel documentation
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://demo.jboss.com/">
+   <soap:Header/>
+   <soap:Body>
+      <ns1:makePayment>
+         <ns1:arg0>
+            <amount>10.50</amount>
+            <merchantId>M-001</merchantId>
+            <merchantName>McDonald</merchantName>
+            <payeeAccountNo>12345-012-2345</payeeAccountNo>
+            <payeeFirstName>CK</payeeFirstName>
+            <payeeLastName>Gan</payeeLastName>
+            <transactedTimestamp>1517587200000</transactedTimestamp>
+            <transctionId>20180203000001</transctionId>
+         </ns1:arg0>
+      </ns1:makePayment>
+   </soap:Body>
+</soap:Envelope>
 
-    http://camel.apache.org/
+
+
