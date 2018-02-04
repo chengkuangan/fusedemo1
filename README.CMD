@@ -27,7 +27,8 @@ To install, run the following command at the JBoss Fuse CLI:
 
 JBossFuse:karaf@root> osgi:install -s mvn:com.jboss.demo/camel-spring-soap-demo/1.0.0-SNAPSHOT
 
-After installed, to the endpoint, use a SOAP client such as POSTMAN or SOAPUI with the following SOAP envelope:
+After installed, to the endpoint, use a SOAP client such as POSTMAN or SOAPUI with the following SOAP envelope.
+The endpoint URL is http://localhost:9292/cxf/makePayment
 
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://demo.jboss.com/">
    <soap:Header/>
