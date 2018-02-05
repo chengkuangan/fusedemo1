@@ -5,8 +5,15 @@ This demo expose SOAP endpoint and send the data into database using JDBC.
 
 Before Deploy, run the following script at the JBoss Fuse CLI to install the required features:
 
-JBossFuse:karaf@root> features:install camel-jackson
-JBossFuse:karaf@root> features:install camel-http4
+features:install camel-jackson
+features:install camel-http4
+osgi:install -s wrap:mvn:commons-dbcp/commons-dbcp/1.4
+osgi:install -s wrap:mvn:org.springframework/spring-jdbc/3.2.16.RELEASE
+osgi:install -s wrap:mvn:org.postgresql/postgresql/42.2.1
+features:install spring-tx
+features:install spring-jdbc
+features:install camel-sql
+
 
 A database need to be created, please refer to the src/main/resources/insertTxnLog.sql for the SQL statements with required table name and structure.
 

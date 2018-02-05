@@ -87,6 +87,13 @@
       <artifactId>camel-sql</artifactId>
       <version>2.17.0.redhat-630187</version>
     </dependency>
+<dependency>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <version>42.2.1</version>
+</dependency>
+
+    
   </dependencies>
   <repositories>
     <repository>
@@ -152,6 +159,7 @@
           <instructions>
             <Bundle-SymbolicName>FuseDemo1</Bundle-SymbolicName>
             <Bundle-Name>Empty Camel Spring Example [FuseDemo1]</Bundle-Name>
+            <Import-Package>org.postgresql,*</Import-Package>
           </instructions>
         </configuration>
       </plugin>
