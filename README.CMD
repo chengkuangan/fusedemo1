@@ -42,21 +42,59 @@ osgi:install -s mvn:com.jboss.demo/camel-spring-soap-demo/1.0.0-SNAPSHOT
 7. To test the SOAP endpoint either using POSTMAN or SOAPUI, point the URL to http://localhost:9292/cxf/makePayment
 Enter the following SOAP envelope test data.
 
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://demo.jboss.com/">
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://security.demo.jboss.com/">
    <soap:Header/>
    <soap:Body>
-      <ns1:makePayment>
+      <ns1:submitSec>
+         <!--Optional:-->
          <ns1:arg0>
-            <amount>10.50</amount>
-            <merchantId>M-001</merchantId>
-            <merchantName>McDonald</merchantName>
-            <payeeAccountNo>12345-012-2345</payeeAccountNo>
-            <payeeFirstName>CK</payeeFirstName>
-            <payeeLastName>Gan</payeeLastName>
-            <transactedTimestamp>1517587200000</transactedTimestamp>
-            <transctionId>20180203000001</transctionId>
+            <records>
+      <record>
+         <awsRegion>us-east-2</awsRegion>
+         <eventName>StartInstances</eventName>
+         <eventSource>ec2.amazonaws.com</eventSource>
+         <eventTime>2014-03-06T21:22:54Z</eventTime>
+         <eventVersion>1.0</eventVersion>
+         <requestParameters>
+            <instancesSet>
+               <instancesSetItems>
+                  <instancesSetElement>
+                     <instanceId>i-ebeaf9e2</instanceId>
+                  </instancesSetElement>
+               </instancesSetItems>
+            </instancesSet>
+         </requestParameters>
+         <responseElements>
+            <responseInstancesSet>
+               <responseItems>
+                  <responseElement>
+                     <currentState>
+                        <code>0</code>
+                        <name>pending</name>
+                     </currentState>
+                     <instanceId>i-ebeaf9e2</instanceId>
+                     <previousState>
+                        <code>80</code>
+                        <name>stopped</name>
+                     </previousState>
+                  </responseElement>
+               </responseItems>
+            </responseInstancesSet>
+         </responseElements>
+         <sourceIPAddress>205.251.233.176</sourceIPAddress>
+         <userAgent>ec2-api-tools 1.6.12.2</userAgent>
+         <userIdentity>
+            <accessKeyId>EXAMPLE_KEY_ID</accessKeyId>
+            <accountId>123456789012</accountId>
+            <arn>arn:aws:iam::123456789012:user/Alice</arn>
+            <principalId>EX_PRINCIPAL_ID</principalId>
+            <type>IAMUser</type>
+            <userName>Alice</userName>
+         </userIdentity>
+      </record>
+   </records>
          </ns1:arg0>
-      </ns1:makePayment>
+      </ns1:submitSec>
    </soap:Body>
 </soap:Envelope>
 
