@@ -3,6 +3,8 @@ package com.jboss.demo;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 public class PaymentRequest implements Serializable{
 	
@@ -21,6 +23,7 @@ public class PaymentRequest implements Serializable{
 	private String status;
 	private String rejectedReason;
 	
+	@JsonIgnore
 	public String getTransactedDate() {
 		if (transactedTimestamp > 0l) {
 			return new Date(transactedTimestamp).toString();

@@ -18,8 +18,8 @@
     xmlns:cxf="http://camel.apache.org/schema/cxf"
     xmlns:jdbc="http://www.springframework.org/schema/jdbc"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans           http://www.springframework.org/schema/beans/spring-beans.xsd                  http://camel.apache.org/schema/spring      http://camel.apache.org/schema/spring/camel-spring.xsd          http://camel.apache.org/schema/cxf      http://camel.apache.org/schema/cxf/camel-cxf.xsd     http://www.springframework.org/schema/jdbc      http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
-    <cxf:cxfEndpoint address="http://localhost:9292/cxf/submitSec"
-        id="mySecurityEndpoint" loggingFeatureEnabled="true" serviceClass="com.jboss.demo.security.SecurityService"/>
+    <cxf:cxfEndpoint address="http://localhost:9292/cxf/makePayment"
+        id="myPaymentEndpoint" loggingFeatureEnabled="true" serviceClass="com.jboss.demo.PaymentService"/>
     <bean class="org.apache.commons.dbcp.BasicDataSource" id="myDS">
         <property name="driverClassName" value="org.postgresql.Driver"/>
         <property name="url" value="jdbc:postgresql://localhost:5432/myDemo"/>
@@ -33,26 +33,17 @@
     </bean>
     <camelContext id="_camelContext1" xmlns="http://camel.apache.org/schema/spring">
         <route id="_route1">
-            <from id="_from1" uri="cxf:bean:mySecurityEndpoint"/>
-            <convertBodyTo id="_convertBodyTo1" type="com.jboss.demo.security.Root"/>
+            <from id="_from1" uri="cxf:bean:myPaymentEndpoint"/>
+            <convertBodyTo id="_convertBodyTo1" type="com.jboss.demo.PaymentRequest"/>
+            <log id="_log1" message="Body Content: ${body.merchantId}"/>
             <multicast id="_multicast1">
-                <!--  to id="_to3" uri="direct:database"/ -->
+                <to id="_to3" uri="direct:database"/>
                 <to id="_to4" uri="direct:demoQueue1"/>
             </multicast>
             <unmarshal id="_unmarshal1">
-                <json library="Jackson" unmarshalTypeName="com.jboss.demo.security.Root"/>
+                <json library="Jackson" unmarshalTypeName="com.jboss.demo.PaymentRequest"/>
             </unmarshal>
             <log id="_log7" message="after multicast : body : ${body}"/>
-            <!-- 
-            <log id="_log1" message="Body Content: ${body}"/>
-            <marshal id="_marshal2">
-                <json library="Jackson"/>
-            </marshal>
-            <log id="_log7" message="After Marshal : body : ${body}"/>
-            <unmarshal id="_unmarshal1">
-                <json library="Jackson" unmarshalTypeName="com.jboss.demo.security.Root"/>
-            </unmarshal>
-            -->
         </route>
         <route id="_route2">
             <from id="_from2" uri="direct:database"/>

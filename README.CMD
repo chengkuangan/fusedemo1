@@ -1,12 +1,15 @@
 Camel Project for Spring 
 =========================================
 
-This demo expose SOAP endpoint and send the data into database using JDBC.
+This demo expose SOAP endpoint and send the data into database using JDBC. 
+The SOAP endpoint is http://localhost:9292/cxf/makePayment 
 
-Before Deploy, run the following script at the JBoss Fuse CLI to install the required features:
+Steps to Configure and Deploy this demo:
+
+1. Run the following script at the JBoss Fuse CLI to install the required features:
 
 features:install camel-jackson
-features:install camel-http4
+// features:install camel-http4
 osgi:install -s wrap:mvn:commons-dbcp/commons-dbcp/1.4
 osgi:install -s wrap:mvn:org.springframework/spring-jdbc/3.2.16.RELEASE
 osgi:install -s wrap:mvn:org.postgresql/postgresql/42.2.1
@@ -14,28 +17,29 @@ features:install spring-tx
 features:install spring-jdbc
 features:install camel-sql
 
+2. Create the demo postgresql database. Refers to src/main/resources/createDemoDB.sql for the database script.
 
-A database need to be created, please refer to the src/main/resources/insertTxnLog.sql for the SQL statements with required table name and structure.
-
-Change the following in the camel-context.xml to the correct JDBC driver and connection detail:
+3. If your database is not Postgresql, please modify camel-context.xml to reflect the actual configuration:
 
 <bean class="org.apache.commons.dbcp.BasicDataSource" id="myDS">
-        <property name="driverClassName" value="org.h2.Driver"/>
-        <property name="url" value="jdbc:h2:file:~/demo/kbtg/db/ps"/>
-        <property name="username" value="sa"/>
-        <property name="password" value="sa"/>
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432/myDemo"/>
+        <property name="username" value="postgres"/>
+        <property name="password" value="password"/>
     </bean>
 
-To build this project, change directory to the root source folder and run the following command:
+4. Create a A-MQ queue named demoQueue via the Fuse Admin Console. 
 
-    mvn install
+5. To build this project, change directory to the root source folder and run the following command:
+
+    mvn clean install
     
-To install, run the following command at the JBoss Fuse CLI:
+6. To install, run the following command at the JBoss Fuse CLI:
 
-JBossFuse:karaf@root> osgi:install -s mvn:com.jboss.demo/camel-spring-soap-demo/1.0.0-SNAPSHOT
+osgi:install -s mvn:com.jboss.demo/camel-spring-soap-demo/1.0.0-SNAPSHOT
 
-After installed, to the endpoint, use a SOAP client such as POSTMAN or SOAPUI with the following SOAP envelope.
-The endpoint URL is http://localhost:9292/cxf/makePayment
+7. To test the SOAP endpoint either using POSTMAN or SOAPUI, point the URL to http://localhost:9292/cxf/makePayment
+Enter the following SOAP envelope test data.
 
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://demo.jboss.com/">
    <soap:Header/>
@@ -54,40 +58,5 @@ The endpoint URL is http://localhost:9292/cxf/makePayment
       </ns1:makePayment>
    </soap:Body>
 </soap:Envelope>
-
-
-Additional information:
-========================
-
-1. Demo Database Details.
-
-Create a database named myDemo and a schema named demo.
-
-Run the following script to create the table.
- 
-Postgresql table structure:
-
-DROP TABLE demo.txnlog;
-
-CREATE TABLE demo.txnlog
-(
-    txnid character varying(255) COLLATE pg_catalog."default",
-    merchantid character varying(255) COLLATE pg_catalog."default",
-    merchantname character varying(255) COLLATE pg_catalog."default",
-    amount character varying(255) COLLATE pg_catalog."default",
-    status character varying(255) COLLATE pg_catalog."default",
-    rejectreason character varying(255) COLLATE pg_catalog."default",
-    txndate character varying(255) COLLATE pg_catalog."default",
-    testq character varying(255) COLLATE pg_catalog."default"
-)
-WITH (
-    OIDS = FALSE
-)
-TABLESPACE pg_default;
-
-ALTER TABLE demo.txnlog
-    OWNER to postgres;
-
-GRANT ALL ON TABLE demo.txnlog TO postgres;
 
 
