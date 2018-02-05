@@ -1,6 +1,7 @@
 Camel Project for Spring 
 =========================================
 
+
 This demo expose SOAP endpoint and send the data into database using JDBC. 
 The SOAP endpoint is http://localhost:9292/cxf/makePayment 
 
