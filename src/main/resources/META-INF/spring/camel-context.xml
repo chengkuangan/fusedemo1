@@ -17,15 +17,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:cxf="http://camel.apache.org/schema/cxf"
     xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:schemaLocation="http://www.springframework.org/schema/beans      
-    http://www.springframework.org/schema/beans/spring-beans.xsd             
-    http://camel.apache.org/schema/spring 
-    http://camel.apache.org/schema/spring/camel-spring.xsd     
-    http://camel.apache.org/schema/cxf 
-    http://camel.apache.org/schema/cxf/camel-cxf.xsd
-    http://www.springframework.org/schema/jdbc 
-    http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans           http://www.springframework.org/schema/beans/spring-beans.xsd                  http://camel.apache.org/schema/spring      http://camel.apache.org/schema/spring/camel-spring.xsd          http://camel.apache.org/schema/cxf      http://camel.apache.org/schema/cxf/camel-cxf.xsd     http://www.springframework.org/schema/jdbc      http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
     <cxf:cxfEndpoint address="http://localhost:9292/cxf/makePayment"
         id="myPaymentEndpoint" loggingFeatureEnabled="true" serviceClass="com.jboss.demo.PaymentService"/>
     <!-- 
@@ -35,7 +27,7 @@
      -->
     <bean class="org.apache.commons.dbcp.BasicDataSource" id="myDS">
         <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:5432/public"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432/myDemo"/>
         <property name="username" value="postgres"/>
         <property name="password" value="password"/>
     </bean>

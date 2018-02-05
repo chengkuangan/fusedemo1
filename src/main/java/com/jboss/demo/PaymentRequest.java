@@ -18,6 +18,8 @@ public class PaymentRequest implements Serializable{
 	protected double amount;
 	private String merchantId;
 	private String merchantName;
+	private String status;
+	private String rejectedReason;
 	
 	public String getTransactedDate() {
 		if (transactedTimestamp > 0l) {
@@ -103,6 +105,22 @@ public class PaymentRequest implements Serializable{
         clone.setTransctionId(transctionId);
         return clone;
     }
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getRejectedReason() {
+		return rejectedReason;
+	}
+
+	public void setRejectedReason(String rejectReason) {
+		this.rejectedReason = rejectReason;
+	}
 
 
 }

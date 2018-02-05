@@ -1,4 +1,4 @@
-insert into txnLog 
+insert into demo.txnLog 
 (txnId, merchantId, merchantName, amount, status, rejectReason, txnDate) 
 values 
 (:#${body.transctionId}, 

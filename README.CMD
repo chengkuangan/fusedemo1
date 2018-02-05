@@ -56,4 +56,38 @@ The endpoint URL is http://localhost:9292/cxf/makePayment
 </soap:Envelope>
 
 
+Additional information:
+========================
+
+1. Demo Database Details.
+
+Create a database named myDemo and a schema named demo.
+
+Run the following script to create the table.
+ 
+Postgresql table structure:
+
+DROP TABLE demo.txnlog;
+
+CREATE TABLE demo.txnlog
+(
+    txnid character varying(255) COLLATE pg_catalog."default",
+    merchantid character varying(255) COLLATE pg_catalog."default",
+    merchantname character varying(255) COLLATE pg_catalog."default",
+    amount character varying(255) COLLATE pg_catalog."default",
+    status character varying(255) COLLATE pg_catalog."default",
+    rejectreason character varying(255) COLLATE pg_catalog."default",
+    txndate character varying(255) COLLATE pg_catalog."default",
+    testq character varying(255) COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE demo.txnlog
+    OWNER to postgres;
+
+GRANT ALL ON TABLE demo.txnlog TO postgres;
+
 
