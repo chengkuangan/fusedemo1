@@ -1,17 +1,18 @@
 package com.jboss.demo.security;
 
+import java.util.Collection;
+
 public class InstancesSet
 {
-    private InstancesSetItems instancesSetItems;
+    private Collection<InstancesSetItems> instancesSetItems;
 
-    public InstancesSetItems getInstancesSetItems ()
-    {
-        return instancesSetItems;
-    }
+	public Collection<InstancesSetItems> getInstancesSetItems() {
+		return instancesSetItems;
+	}
 
-    public void setInstancesSetItems (InstancesSetItems instancesSetItems)
-    {
-        this.instancesSetItems = instancesSetItems;
-    }
+	public void setInstancesSetItems(Collection<InstancesSetItems> instancesSetItems) {
+		this.instancesSetItems = instancesSetItems;
+	}
 
+    
 }

@@ -20,6 +20,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans           http://www.springframework.org/schema/beans/spring-beans.xsd                  http://camel.apache.org/schema/spring      http://camel.apache.org/schema/spring/camel-spring.xsd          http://camel.apache.org/schema/cxf      http://camel.apache.org/schema/cxf/camel-cxf.xsd     http://www.springframework.org/schema/jdbc      http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
     <cxf:cxfEndpoint address="http://localhost:9292/cxf/submitSec"
         id="mySecurityEndpoint" loggingFeatureEnabled="true" serviceClass="com.jboss.demo.security.SecurityService"/>
+    <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" id="jsonProvider"/>
     <bean class="org.apache.commons.dbcp.BasicDataSource" id="myDS">
         <property name="driverClassName" value="org.postgresql.Driver"/>
         <property name="url" value="jdbc:postgresql://localhost:5432/myDemo"/>
@@ -31,6 +32,12 @@
         <property name="userName" value="admin"/>
         <property name="password" value="admin"/>
     </bean>
+    <cxf:rsServer address="http://localhost:9494/secjson" id="rsServer"
+        loggingFeatureEnabled="true" loggingSizeLimit="20" serviceClass="com.jboss.demo.security.SecurityJsonService">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+        </cxf:providers>
+    </cxf:rsServer>
     <camelContext id="_camelContext1" xmlns="http://camel.apache.org/schema/spring">
         <route id="_route1">
             <from id="_from1" uri="cxf:bean:mySecurityEndpoint"/>
@@ -69,6 +76,18 @@
             <log id="_log3" message="after marshal : body : ${body}"/>
             <to id="_to2" pattern="InOnly" uri="activemq:queue:demoQueue"/>
             <log id="_log5" message="After AMQ : ${body}"/>
+        </route>
+        <route id="_route4">
+            <from id="_from4" uri="cxfrs:bean:rsServer"/>
+            <convertBodyTo id="_convertBodyTo2" type="com.jboss.demo.security.Root"/>
+            <log id="_log1" message="JSON Data : Body : ${body}"/>
+            <marshal id="_marshal2">
+                <json library="Jackson"/>
+            </marshal>
+            <to id="_to3" pattern="InOnly" uri="activemq:queue:JSONQueue"/>
+            <unmarshal id="_unmarshal2">
+                <json library="Jackson" unmarshalTypeName="com.jboss.demo.security.Root"/>
+            </unmarshal>
         </route>
     </camelContext>
 </beans>

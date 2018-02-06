@@ -1,13 +1,16 @@
 package com.jboss.demo.security;
 
-public class ResponseInstancesSet {
-	private ResponseItems responseItems;
+import java.util.Collection;
 
-	public ResponseItems getResponseItems() {
+public class ResponseInstancesSet {
+	private Collection<ResponseItems> responseItems;
+
+	public Collection<ResponseItems> getResponseItems() {
 		return responseItems;
 	}
 
-	public void setResponseItems(ResponseItems responseItems) {
+	public void setResponseItems(Collection<ResponseItems> responseItems) {
 		this.responseItems = responseItems;
 	}
-}
+
+	}

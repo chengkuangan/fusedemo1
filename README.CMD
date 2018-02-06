@@ -3,7 +3,9 @@ Camel Project for Spring
 
 
 This demo expose SOAP endpoint and send the data into database using JDBC. 
-The SOAP endpoint is http://localhost:9292/cxf/makePayment 
+
+The SOAP endpoint is http://localhost:9292/cxf/makePayment
+The JSON endpoint is http://localhost:9292/cxf/submitSec 
 
 Steps to Configure and Deploy this demo:
 
@@ -29,7 +31,7 @@ features:install camel-sql
         <property name="password" value="password"/>
     </bean>
 
-4. Create a A-MQ queue named demoQueue via the Fuse Admin Console. 
+4. Create TWO A-MQ queue named demoQueue and JSONQueue via the Fuse Admin Console. 
 
 5. To build this project, change directory to the root source folder and run the following command:
 
@@ -98,4 +100,44 @@ Enter the following SOAP envelope test data.
    </soap:Body>
 </soap:Envelope>
 
+8. To Test the JSON endpoint, enter the following sample data:
 
+{
+"records": [{
+	"record":[{
+        "eventVersion": "1.0",
+        "userIdentity": {
+           "type": "IAMUser",
+           "principalId": "EX_PRINCIPAL_ID",
+           "arn": "arn:aws:iam::123456789012:user/Alice",
+           "accessKeyId": "EXAMPLE_KEY_ID",
+           "accountId": "123456789012",
+           "userName": "Alice"
+        },
+        "eventTime": "2014-03-06T21:22:54Z",
+        "eventSource": "ec2.amazonaws.com",
+        "eventName": "StartInstances",
+        "awsRegion": "us-east-2",
+        "sourceIPAddress": "205.251.233.176",
+        "userAgent": "ec2-api-tools 1.6.12.2",
+        "requestParameters": {
+            "instancesSet": {
+                "instancesSetItems": [{
+                     "instancesSetElement": {
+                         "instanceId": "i-ebeaf9e2"}}]}},
+        "responseElements": {
+            "responseInstancesSet": {
+                "responseItems": [{
+                    "responseElement": {
+                        "instanceId": "i-ebeaf9e2",
+                        "currentState": {
+                            "code": 0,
+                            "name": "pending"
+                        },
+                        "previousState": {
+                        "code": 80,
+                        "name": "stopped"
+                        }
+                    }}]}}
+	}]}]
+}
