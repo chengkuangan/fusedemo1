@@ -4,8 +4,8 @@ Camel Project for Spring
 
 This demo expose SOAP endpoint and send the data into database using JDBC. 
 
-The SOAP endpoint is http://localhost:9292/cxf/makePayment
-The JSON endpoint is http://localhost:9292/cxf/submitSec 
+The SOAP endpoint is http://localhost:9292/cxf/submitSec
+The JSON endpoint is http://localhost:9494/secjson/sjson 
 
 Steps to Configure and Deploy this demo:
 
@@ -41,7 +41,7 @@ features:install camel-sql
 
 osgi:install -s mvn:com.jboss.demo/camel-spring-soap-demo/1.0.0-SNAPSHOT
 
-7. To test the SOAP endpoint either using POSTMAN or SOAPUI, point the URL to http://localhost:9292/cxf/makePayment
+7. To test the SOAP endpoint either using POSTMAN or SOAPUI, point the URL to http://localhost:9292/cxf/submitSec
 Enter the following SOAP envelope test data.
 
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://security.demo.jboss.com/">
@@ -100,7 +100,7 @@ Enter the following SOAP envelope test data.
    </soap:Body>
 </soap:Envelope>
 
-8. To Test the JSON endpoint, enter the following sample data:
+8. To Test the JSON endpoint, enter the following sample data at http://localhost:9494/secjson/sjson
 
 {
 "records": [{
