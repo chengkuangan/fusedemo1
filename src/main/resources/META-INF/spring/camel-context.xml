@@ -39,7 +39,7 @@
         </cxf:providers>
     </cxf:rsServer>
     <camelContext id="_camelContext1" xmlns="http://camel.apache.org/schema/spring">
-        <route id="_route1">
+        <route id="_SOAP_endpoint">
             <from id="_from1" uri="cxf:bean:mySecurityEndpoint"/>
             <convertBodyTo id="_convertBodyTo1" type="com.jboss.demo.security.Root"/>
             <multicast id="_multicast1">
@@ -61,29 +61,31 @@
             </unmarshal>
             -->
         </route>
-        <route id="_route2">
+        <route id="_not_in_used">
             <from id="_from2" uri="direct:database"/>
             <log id="_log4" message="Inside multicast : Body Content: ${body}"/>
             <to id="_to1" uri="sql:classpath:insertTxnLog.sql?dataSource=myDS"/>
             <log id="_log6" message="after database : body : ${body}"/>
         </route>
-        <route id="_route3">
+        <route id="_SOAP_to_AMQ">
             <from id="_from3" uri="direct:demoQueue1"/>
             <log id="_log2" message="Converted to Json : Body : ${body}"/>
             <marshal id="_marshal1">
                 <json library="Jackson"/>
             </marshal>
             <log id="_log3" message="after marshal : body : ${body}"/>
+            <convertBodyTo id="_convertBodyTo4" type="java.lang.String"/>
             <to id="_to2" pattern="InOnly" uri="activemq:queue:demoQueue"/>
             <log id="_log5" message="After AMQ : ${body}"/>
         </route>
-        <route id="_route4">
+        <route id="_JSON_to_AMQ">
             <from id="_from4" uri="cxfrs:bean:rsServer"/>
             <convertBodyTo id="_convertBodyTo2" type="com.jboss.demo.security.Root"/>
             <log id="_log1" message="JSON Data : Body : ${body}"/>
             <marshal id="_marshal2">
                 <json library="Jackson"/>
             </marshal>
+            <convertBodyTo id="_convertBodyTo3" type="java.lang.String"/>
             <to id="_to3" pattern="InOnly" uri="activemq:queue:JSONQueue"/>
             <unmarshal id="_unmarshal2">
                 <json library="Jackson" unmarshalTypeName="com.jboss.demo.security.Root"/>
